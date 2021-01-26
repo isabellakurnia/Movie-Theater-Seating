@@ -1,5 +1,8 @@
+import os
+
 class Solution:
-    def __init__(self):
+    def __init__(self, inputFile):
+        self.filein = inputFile
         self.outputStr = ''
         self.rows = 'ACEGI'
         self.seats = [[i + str(j + 1) for j in range(20)] for i in self.rows]
@@ -8,15 +11,15 @@ class Solution:
         self.leftovers = []
 
     def read_write(self):
-        filename_in = 'input.txt'
         filename_out = 'output.txt'
-        with open(filename_in, 'r') as input:
+        with open(self.filein, 'r') as input:
             with open(filename_out, 'w') as output:
                 line = input.readline()
                 while line:
                     self.algo(line)
                     line = input.readline()
                 output.write(self.outputStr)
+        return os.getcwd() + '/' + filename_out
 
     def algo(self, reservation):
         group = reservation.split(' ')
@@ -63,5 +66,6 @@ class Solution:
             self.outputStr += group[0] + " " + ", ".join(self.answers) + "\n"
         self.answers = []
 
-object = Solution()
-object.read_write()
+inputFile = input("File input: ")
+object = Solution(inputFile)
+print(object.read_write())
