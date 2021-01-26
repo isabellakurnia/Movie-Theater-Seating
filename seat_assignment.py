@@ -1,7 +1,7 @@
 class Solution:
     def __init__(self):
         self.outputStr = ''
-        self.rows = 'ABCDEFGHIJ'
+        self.rows = 'ACEGI'
         self.seats = [[i + str(j + 1) for j in range(20)] for i in self.rows]
         self.last = [0, 0]
         self.answers = []
@@ -28,16 +28,16 @@ class Solution:
                 self.answers.append(self.seats[self.last[0]][self.last[1] + i])
             self.last[1] += group[1] + 3
             # When row can no longer be filled and there exist more rows
-            if self.last[1] >= 20 and self.last[0] < 10:
+            if self.last[1] >= 20 and self.last[0] < 5:
                 self.outputStr += group[0] + " " + ", ".join(self.answers) + "\n"
                 self.last = [self.last[0] + 1, 0]
                 self.leftovers.append(0)
             # When there does not exist more rows
-            elif self.last[0] >= 10:
+            elif self.last[0] >= 5:
                 self.leftovers.append(20 - self.last[1])
 
         # When there is not enough seats for the group and there exist more rows
-        elif self.last[0] + 1 < 10:
+        elif self.last[0] + 1 < 5:
             self.leftovers.append(20 - self.last[1])
             self.last = [self.last[0] + 1, 0]
             self.algo(reservation)
@@ -45,7 +45,7 @@ class Solution:
 
         # When max capacity of theatre is filled and group cannot book tickets
         elif sum(self.leftovers) < group[1]:
-            self.outputStr += group[0] + " Cinema is filled and cannot accept this group."
+            self.outputStr += group[0] + " Cinema is filled and cannot accept this group.\n"
             return
 
         # When all rows are filled but there exist leftover seats
